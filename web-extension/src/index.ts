@@ -1,5 +1,9 @@
-// 規模的にファイル一つで tsc だけでもいいかと思ったけど型を共通化するならやっぱ webpack 要りそう
-import { SampleCasePayload } from '@shared-types/sample-case-payload'
+export interface SampleCasePayload {
+  contestName: string
+  taskName: string
+  inputSampleCases: string[]
+  outputSampleCases: string[]
+}
 
 export const isInputSampleCaseEl = <T extends HTMLElement>(el: T) => {
   return el.parentElement?.querySelector('h3')?.textContent?.includes('入力例') ?? false

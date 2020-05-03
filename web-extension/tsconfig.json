@@ -4,6 +4,7 @@
     "target": "es5",
     "module": "commonjs",
     "lib": ["DOM", "ES2015"],
+    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
