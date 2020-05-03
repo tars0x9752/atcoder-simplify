@@ -10,14 +10,15 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:atcoderSimplify.helloWorld"
+		"onCommand:atcoderSimplify.start"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "atcoderSimplify.helloWorld",
-				"title": "Hello World"
+				"command": "atcoderSimplify.start",
+				"title": "Start atcoder simplify",
+				"category": "AtCoder Simplify"
 			}
 		]
 	},
