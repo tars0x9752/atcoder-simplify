@@ -1,25 +1,25 @@
-export interface SampleCasePayload {
+interface SampleCasePayload {
   contestName: string
   taskName: string
   inputSampleCases: string[]
   outputSampleCases: string[]
 }
 
-export const isInputSampleCaseEl = <T extends HTMLElement>(el: T) => {
+const isInputSampleCaseEl = <T extends HTMLElement>(el: T) => {
   return el.parentElement?.querySelector('h3')?.textContent?.includes('入力例') ?? false
 }
 
-export const isOutputSampleCaseEl = <T extends HTMLElement>(el: T) => {
+const isOutputSampleCaseEl = <T extends HTMLElement>(el: T) => {
   return el.parentElement?.querySelector('h3')?.textContent?.includes('出力例') ?? false
 }
 
-export const accumelateSampleCases = <T extends HTMLElement>(acc: string[], curr: T) => {
+const accumelateSampleCases = <T extends HTMLElement>(acc: string[], curr: T) => {
   const sampleRawText = curr.textContent
 
   return sampleRawText !== null ? [...acc, sampleRawText] : [...acc]
 }
 
-export const parseSampleCases = () => {
+const parseSampleCases = () => {
   const preElNodeList = window.document.querySelectorAll('pre')
 
   const preElArray = Array.from(preElNodeList)
@@ -47,17 +47,18 @@ const parseTaskInfo = () => {
 const sendSampleCases = (payload: SampleCasePayload) => {
   const body = JSON.stringify(payload)
 
-  const PORT = 202080
+  const PORT = 20080
 
-  // クロスオリジンだけどpostだけできればよくて、そもそもレスポンスは要らないのでno-corsでよい
   fetch(`http://localhost:${PORT}`, {
     mode: 'no-cors',
-    method: 'post',
+    method: 'POST',
     body,
   })
 }
 
 const runExtension = () => {
+  console.log('atcoder simplify')
+
   const { inputSampleCases, outputSampleCases } = parseSampleCases()
 
   const { contestName, taskName } = parseTaskInfo()
