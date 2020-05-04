@@ -11,7 +11,9 @@ export const startServer = () => {
   const server = fastify({})
 
   server.post('/', async (req, res) => {
-    const sapmleCases = JSON.parse(req.body) as SampleCasePayload
+    console.log('posted')
+
+    const sapmleCases = req.body as SampleCasePayload
 
     console.log(sapmleCases)
 
