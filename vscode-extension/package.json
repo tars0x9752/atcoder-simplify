@@ -17,7 +17,7 @@
 		"commands": [
 			{
 				"command": "atcoderSimplify.start",
-				"title": "Start atcoder simplify",
+				"title": "Start AtCoder Simplify",
 				"category": "AtCoder Simplify"
 			}
 		]
