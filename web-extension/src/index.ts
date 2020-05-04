@@ -46,12 +46,15 @@ const parseTaskInfo = () => {
 
 const sendSampleCases = (payload: SampleCasePayload) => {
   const body = JSON.stringify(payload)
+  const headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+  }
 
   const PORT = 20080
 
   fetch(`http://localhost:${PORT}`, {
-    mode: 'no-cors',
     method: 'POST',
+    headers,
     body,
   })
 }

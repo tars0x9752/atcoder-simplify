@@ -1,4 +1,5 @@
 import * as fastify from 'fastify'
+import * as cors from 'fastify-cors'
 
 export interface SampleCasePayload {
   contestName: string
@@ -8,12 +9,16 @@ export interface SampleCasePayload {
 }
 
 export const startServer = () => {
-  const server = fastify({})
+  const server = fastify().register(cors, {
+    origin: 'https://atcoder.jp',
+  })
 
   server.post('/', async (req, res) => {
     console.log('posted')
 
     const sapmleCases = req.body as SampleCasePayload
+
+    console.log(req.headers)
 
     console.log(sapmleCases)
 
