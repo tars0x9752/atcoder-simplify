@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { startCmd } from './commands/start'
+import { startCmd } from '@vscode/commands/start'
 
 const EXTENSION_ID = 'atcoderSimplify'
 

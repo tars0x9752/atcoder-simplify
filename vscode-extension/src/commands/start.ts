@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { startServer } from '../server'
+import { startServer } from '@vscode/server'
 
 export const startCmd = () => {
   startServer()

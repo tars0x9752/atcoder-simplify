@@ -22,6 +22,11 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      '@shared': path.resolve(__dirname, '../shared'),
+      '@vscode': path.resolve(__dirname, '../vscode-extension/src'),
+      '@browser': path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [

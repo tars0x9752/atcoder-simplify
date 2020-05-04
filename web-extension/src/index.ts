@@ -1,9 +1,4 @@
-interface SampleCasePayload {
-  contestName: string
-  taskName: string
-  inputSampleCases: string[]
-  outputSampleCases: string[]
-}
+import { SampleCasePayload } from '@shared/types/sample-case-payload'
 
 const isInputSampleCaseEl = <T extends HTMLElement>(el: T) => {
   return el.parentElement?.querySelector('h3')?.textContent?.includes('入力例') ?? false

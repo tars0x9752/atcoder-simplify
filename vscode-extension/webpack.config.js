@@ -24,8 +24,12 @@ const config = {
     nodeExternals(),
   ],
   resolve: {
-    // support reading TypeScript and JavaScript files
     extensions: ['.ts', '.js'],
+    alias: {
+      '@shared': path.resolve(__dirname, '../shared'),
+      '@vscode': path.resolve(__dirname, 'src'),
+      '@browser': path.resolve(__dirname, '../web-extension/src'),
+    },
   },
   module: {
     rules: [

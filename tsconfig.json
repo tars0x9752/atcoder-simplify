@@ -1,0 +1,11 @@
+// base tsconfig
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@vscode/*": ["vscode-extension/src/*"],
+      "@browser/*": ["web-extension/src/*"]
+    }
+  }
+}

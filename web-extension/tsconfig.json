@@ -1,13 +1,13 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "module": "UMD",
+    "module": "CommonJS",
     "lib": ["DOM", "ES2015"],
-    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
