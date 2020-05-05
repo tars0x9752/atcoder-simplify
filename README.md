@@ -1,6 +1,8 @@
-\*まだ開発を開始したばかりで、完成していません。以下は全て構想です。
+現在開発中です。まだ完成していません。以下は全て構想です。
 
 # AtCoder Simplify
+
+![Status-WIP](https://img.shields.io/badge/Status-WIP-orange)
 
 AtCoder で問題を解くときの一連の流れを簡略化する、VSCode の拡張機能と Chrome の拡張機能のセットです。
 
@@ -14,6 +16,7 @@ cli でコマンドを打ち込んだりしなくても、ブラウザで AtCode
 - 問題用のディレクトリとファイルの生成
 - コンパイルとテストの実行・結果の表示
   - とりあえず最初は cpp のみ対応予定
+  - ユーザーが自作したテストケースへの対応もしたい
 - Windows・macOS・Linux(WSL 含む) に対応
 
 ## やらないこと
@@ -28,7 +31,6 @@ cli でコマンドを打ち込んだりしなくても、ブラウザで AtCode
 
 - cli を使わずに VSCode とブラウザのみでコンテスト中の基本的な作業は完結させたい
 - 導入が簡単にできて、覚えることの少ないシンプルな使い勝手
-- the less actions the better
 - keep it simple, stupid
 
 ## ターゲット
@@ -45,4 +47,4 @@ cli でコマンドを打ち込んだりしなくても、ブラウザで AtCode
 
 - VSCode
 - Google Chrome
-  - 標準の Web Extension の規格に従って作る想定なので、Chrome に限らず標準規格に対応したブラウザであればたぶん動く
+  - Chrome に限らず標準の Web Extension の規格に対応したブラウザであればたぶん動くと思うけどとりあえずは Chrome のみ
