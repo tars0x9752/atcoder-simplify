@@ -1,11 +1,11 @@
 import * as vscode from 'vscode'
 import { startServer } from '@vscode/server'
-import { createTaskSolutionFile } from '@vscode/fs/fs-consumer'
+import { createTaskSolutionFile } from '@vscode/fs/contest'
 
 export const startCmd = async () => {
   startServer()
 
-  // fsconsumer sample usage
+  // sample usage
   createTaskSolutionFile('contestName', 'taskName')
 
   vscode.window.showInformationMessage('start')
