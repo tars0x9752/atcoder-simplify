@@ -1,12 +1,7 @@
 import * as fastify from 'fastify'
 import * as cors from 'fastify-cors'
-
-export interface SampleCasePayload {
-  contestName: string
-  taskName: string
-  inputSampleCases: string[]
-  outputSampleCases: string[]
-}
+import { SampleCasePayload } from '@shared/types/sample-case-payload'
+import { createTaskRelatedFiles } from '@vscode/fs/contest'
 
 export const startServer = () => {
   const server = fastify().register(cors, {
@@ -18,9 +13,7 @@ export const startServer = () => {
 
     const sapmleCases = req.body as SampleCasePayload
 
-    console.log(req.headers)
-
-    console.log(sapmleCases)
+    createTaskRelatedFiles(sapmleCases)
 
     res.send('ok')
   })

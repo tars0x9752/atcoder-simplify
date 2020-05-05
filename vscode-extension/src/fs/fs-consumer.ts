@@ -51,3 +51,7 @@ export class FsConsumer {
 }
 
 export const fs = new FsConsumer()
+
+export const createBuffer = (str: string) => {
+  return Buffer.from(str, 'utf8')
+}
