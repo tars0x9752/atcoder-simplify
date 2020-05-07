@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:atcoderSimplify.start"
+    "*"
   ],
   "main": "./dist/extension",
   "contributes": {
