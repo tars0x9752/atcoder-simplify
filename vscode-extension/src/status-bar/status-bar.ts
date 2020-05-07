@@ -4,8 +4,9 @@ import { ServerState } from '@vscode/server/server'
 const initStatusBar = () => {
   const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 0)
 
-  const createStatusBarItem = () => {
+  const createStatusBarItem = (cmdId?: string) => {
     statusBarItem.text = '$(run) AtCoder Simplify'
+    statusBarItem.command = cmdId
     statusBarItem.show()
 
     return statusBarItem
