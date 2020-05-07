@@ -1,4 +1,4 @@
-import { fs, createBuffer } from '@vscode/fs/fs-consumer'
+import { fs, createBuffer } from '@vscode/fs/fs'
 import { posix } from 'path'
 import { SampleCasePayload } from '@shared/types/sample-case-payload'
 

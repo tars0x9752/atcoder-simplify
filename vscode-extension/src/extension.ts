@@ -1,12 +1,21 @@
 import * as vscode from 'vscode'
-import { startCmd } from '@vscode/commands/start'
+import { startServerCmd, closeServerCmd } from '@vscode/commands/server'
 
 const EXTENSION_ID = 'atcoderSimplify'
 
 export function activate(context: vscode.ExtensionContext) {
-  const startCmdDisposable = vscode.commands.registerCommand(`${EXTENSION_ID}.start`, startCmd)
+  const startServerCmdDisposable = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.start`,
+    startServerCmd
+  )
 
-  context.subscriptions.push(startCmdDisposable)
+  const closeServerCmdDisposable = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.close`,
+    closeServerCmd
+  )
+
+  context.subscriptions.push(startServerCmdDisposable)
+  context.subscriptions.push(closeServerCmdDisposable)
 }
 
 export function deactivate() {}
