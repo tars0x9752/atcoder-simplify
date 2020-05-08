@@ -12,10 +12,14 @@ const initStatusBar = () => {
     return statusBarItem
   }
 
-  const updateStatusBarItem = (state: ServerState) => {
+  const updateStatusBarItem = (state: ServerState, cmdId?: string) => {
     const icon = state === ServerState.Running ? 'zap' : 'run'
 
     statusBarItem.text = `$(${icon}) AtCoder Simplify`
+
+    if (cmdId !== undefined) {
+      statusBarItem.command = cmdId
+    }
 
     statusBarItem.show()
   }

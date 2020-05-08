@@ -58,7 +58,7 @@ class ServerConsumer {
     return true
   }
 
-  close = async () => {
+  async close() {
     const { _server, state } = this
 
     // startされていないなら何もしない
@@ -66,7 +66,7 @@ class ServerConsumer {
       return false
     }
 
-    // 上のガードで保証されているのでasってよい
+    // 上のガードでfastify.FastifyInstanceなことは保証されている
     await (_server as fastify.FastifyInstance).close()
 
     this._server = false
