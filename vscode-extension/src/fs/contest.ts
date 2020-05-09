@@ -26,7 +26,7 @@ export const createSampleCaseFiles = (cases: string[], ext: CaseFileExt, basePat
   cases.map((caseStr, i) => {
     const sampleNumber = i + 1
 
-    const fileName = `sample-${sampleNumber}.${ext}`
+    const fileName = `sample-${sampleNumber}${ext}`
 
     const filePath = posix.join(basePath, fileName)
 

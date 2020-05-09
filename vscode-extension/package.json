@@ -24,6 +24,11 @@
         "command": "atcoderSimplify.close",
         "title": "Close AtCoder Simplify",
         "category": "AtCoder Simplify"
+      },
+      {
+        "command": "atcoderSimplify.compile",
+        "title": "Compile",
+        "category": "AtCoder Simplify"
       }
     ]
   },
