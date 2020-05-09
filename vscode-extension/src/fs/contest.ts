@@ -48,7 +48,7 @@ export const createTaskRelatedFiles = ({
   inputSampleCases,
   outputSampleCases,
 }: SampleCasePayload) => {
-  const basePath = posix.join(contestName, taskName, 'test')
+  const basePath = posix.join(contestName, taskName, 'cases')
 
   createSampleCaseFiles(inputSampleCases, CaseFileExt.In, basePath)
   createSampleCaseFiles(outputSampleCases, CaseFileExt.Out, basePath)

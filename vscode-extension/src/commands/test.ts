@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { posix } from 'path'
 import { exec, ExecOptions } from 'child_process'
 import { promisify } from 'util'
-import { fs } from '@vscode/fs/fs'
+import { fs, createBuffer } from '@vscode/fs/fs'
 
 const execP = promisify(exec)
 
@@ -26,9 +26,7 @@ const execTests = async (
     return
   }
 
-  results.map(({ stdout: result }) => {
-    console.log(result)
-  })
+  return results
 }
 
 const parseCurrentFilePath = (currentFilePath: string) => {
@@ -66,7 +64,17 @@ export const testCmd = async () => {
   // findFiles は RelativePath 前提なので Relative にしている
   const relativeCwd = posix.relative(root, cwd)
 
-  const inputCases = await vscode.workspace.findFiles(`${relativeCwd}/test/*.in`)
+  const inputCases = await vscode.workspace.findFiles(`${relativeCwd}/cases/*.in`)
 
-  execTests(inputCases, executablePath, execOptions)
+  const results = (await execTests(inputCases, executablePath, execOptions)) ?? []
+
+  results.map(({ stdout }, i) => {
+    const resultBuffer = createBuffer(stdout)
+
+    const casename = posix.basename(inputCases[i].fsPath, '.in')
+
+    const resultPath = posix.join(cwd, 'results', `${casename}.res`)
+
+    fs.writeFile(currentFileUri.with({ path: resultPath }), resultBuffer)
+  })
 }
