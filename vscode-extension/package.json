@@ -26,8 +26,8 @@
         "category": "AtCoder Simplify"
       },
       {
-        "command": "atcoderSimplify.compile",
-        "title": "Compile",
+        "command": "atcoderSimplify.test",
+        "title": "Test Sample Cases",
         "category": "AtCoder Simplify"
       }
     ]
