@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { startServerCmd, closeServerCmd } from '@vscode/commands/server'
-import { createStatusBarItem } from '@vscode/status-bar/status-bar'
+import { createStatusBarItem } from '@vscode/ui/status-bar'
 import { showQuickPickCmd } from '@vscode/commands/quick-pick'
 import { testCmd } from '@vscode/commands/test'
 import { cmdId } from '@vscode/commands/id'

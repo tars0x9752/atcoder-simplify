@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import { server } from '@vscode/server/server'
-import { updateStatusBarItem } from '@vscode/status-bar/status-bar'
+import { updateStatusBarItem } from '@vscode/ui/status-bar'
 import { cmdId } from '@vscode/commands/id'
 
 const PREFIX = 'AtCoder Simplify: '

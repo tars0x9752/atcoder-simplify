@@ -3,6 +3,7 @@ import { posix } from 'path'
 import { exec, ExecOptions } from 'child_process'
 import { promisify } from 'util'
 import { fs, createBuffer } from '@vscode/fs/fs'
+import { outputChannel } from '@vscode/ui/output-channel'
 
 const execP = promisify(exec)
 
@@ -23,9 +24,7 @@ const execTests = async (
 
   // reject が発生した場合は results は false
   if (results === false) {
-    vscode.window.showInformationMessage(
-      '実行時に問題が発生したため中断されました'
-    )
+    vscode.window.showInformationMessage('実行時に問題が発生したため中断されました')
     return
   }
 
@@ -95,18 +94,18 @@ export const testCmd = async () => {
 
   const tests = (await Promise.all(testsPromised)) || []
 
-  const oc = vscode.window.createOutputChannel('test results')
-  oc.appendLine(`=== ${taskName} ===`)
+  outputChannel.appendLine(`=== ${taskName} ===`)
 
   tests.map((test, i) => {
     const casename = posix.basename(inputCases[i].fsPath, '.in')
 
     if (test) {
-      oc.appendLine(`${casename}: AC ✅`)
+      outputChannel.appendLine(`${casename}: AC ✅`)
     } else {
-      oc.appendLine(`${casename}: WA ❌`)
+      outputChannel.appendLine(`${casename}: WA ❌`)
     }
   })
 
-  oc.show()
+  outputChannel.appendLine('')
+  outputChannel.show()
 }
