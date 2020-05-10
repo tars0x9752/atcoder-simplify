@@ -54,12 +54,28 @@ const sendSampleCases = (payload: SampleCasePayload) => {
   })
 }
 
+const validateSampleCases = (inputSampleCases: string[], outputSampleCases: string[]) => {
+  if (inputSampleCases.length === 0 || outputSampleCases.length === 0) {
+    return false
+  }
+
+  if (inputSampleCases.length !== outputSampleCases.length) {
+    return false
+  }
+
+  return true
+}
+
 const runExtension = () => {
   console.log('atcoder simplify')
 
   const { inputSampleCases, outputSampleCases } = parseSampleCases()
 
   const { contestName, taskName } = parseTaskInfo()
+
+  if (!validateSampleCases(inputSampleCases, outputSampleCases)) {
+    return
+  }
 
   sendSampleCases({
     contestName,
@@ -70,22 +86,3 @@ const runExtension = () => {
 }
 
 window.onload = runExtension
-
-// 勢いで書いたけど使うかわからない
-const zipSampleCases = (inputSampleCases: string[], outputSampleCases: string[]) => {
-  if (inputSampleCases.length !== outputSampleCases.length) {
-    console.error('something went wrong')
-    return
-  }
-
-  const sampleCases = inputSampleCases.map((v, i) => {
-    return {
-      input: v,
-      output: outputSampleCases[i],
-    }
-  })
-
-  sampleCases.map((v, i) => {
-    console.log(`=== sample ${i + 1} ===\n[input]\n${v.input}\n[output]\n${v.output}\n\n`)
-  })
-}
