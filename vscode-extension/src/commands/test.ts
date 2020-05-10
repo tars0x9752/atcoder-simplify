@@ -23,6 +23,9 @@ const execTests = async (
 
   // reject が発生した場合は results は false
   if (results === false) {
+    vscode.window.showInformationMessage(
+      '実行時に問題が発生したため中断されました'
+    )
     return
   }
 
@@ -48,16 +51,18 @@ export const testCmd = async () => {
     return
   }
 
-  const { cwd, executablePath } = parseCurrentFilePath(currentFileUri.fsPath)
+  const { cwd, executablePath, taskName } = parseCurrentFilePath(currentFileUri.fsPath)
 
   const executableUri = currentFileUri.with({ path: executablePath })
 
-  if (!fs.checkExistence(executableUri)) {
-    vscode.window.showInformationMessage('実行ファイルがみつかりません')
+  if (!(await fs.checkExistence(executableUri))) {
+    vscode.window.showInformationMessage(
+      '実行ファイルがみつかりません。コンパイル時の -o オプションにcppファイルと同じ階層に同じ名称.exeという形で実行ファイルを出力するように指定してコンパイルしてください。task を使ってコンパイルしている場合は -o に対して ${fileDirname}/${fileBasenameNoExtension}.exe を指定してください。'
+    )
     return
   }
 
-  const execOptions: ExecOptions = { cwd }
+  const execOptions: ExecOptions = { cwd, timeout: 2000 }
 
   const root = fs.rootPath as string
 
@@ -68,13 +73,40 @@ export const testCmd = async () => {
 
   const results = (await execTests(inputCases, executablePath, execOptions)) ?? []
 
-  results.map(({ stdout }, i) => {
-    const resultBuffer = createBuffer(stdout)
+  if (results.length === 0) {
+    return
+  }
+
+  const testsPromised = results.map(({ stdout: result }, i) => {
+    const resultBuffer = createBuffer(result)
 
     const casename = posix.basename(inputCases[i].fsPath, '.in')
 
     const resultPath = posix.join(cwd, 'results', `${casename}.res`)
 
     fs.writeFile(currentFileUri.with({ path: resultPath }), resultBuffer)
+
+    return vscode.workspace
+      .openTextDocument(currentFileUri.with({ path: posix.join(cwd, 'cases', `${casename}.out`) }))
+      .then(expected => {
+        return result === expected.getText()
+      })
   })
+
+  const tests = (await Promise.all(testsPromised)) || []
+
+  const oc = vscode.window.createOutputChannel('test results')
+  oc.appendLine(`=== ${taskName} ===`)
+
+  tests.map((test, i) => {
+    const casename = posix.basename(inputCases[i].fsPath, '.in')
+
+    if (test) {
+      oc.appendLine(`${casename}: AC ✅`)
+    } else {
+      oc.appendLine(`${casename}: WA ❌`)
+    }
+  })
+
+  oc.show()
 }
