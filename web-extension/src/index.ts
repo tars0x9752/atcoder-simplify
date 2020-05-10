@@ -67,8 +67,6 @@ const validateSampleCases = (inputSampleCases: string[], outputSampleCases: stri
 }
 
 const runExtension = () => {
-  console.log('atcoder simplify')
-
   const { inputSampleCases, outputSampleCases } = parseSampleCases()
 
   const { contestName, taskName } = parseTaskInfo()

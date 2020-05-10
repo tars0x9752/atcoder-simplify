@@ -1,6 +1,6 @@
 {
-  "name": "web-extension",
-  "version": "1.0.0",
+  "name": "atcoder-simplify",
+  "version": "0.1.0",
   "description": "",
   "scripts": {
     "webpack": "webpack --mode development",
