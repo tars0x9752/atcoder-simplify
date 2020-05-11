@@ -6,7 +6,8 @@
     "build": "webpack --mode development",
     "watch": "webpack --mode development --watch",
     "fmt": "prettier --write src/**/*.ts",
-    "prepublish": "webpack --mode production"
+    "prepublish": "webpack --mode production && npm run zip",
+    "zip": "rm -rf ./dist.zip && zip -r dist.zip ./dist"
   },
   "keywords": [],
   "author": "",

@@ -1,8 +1,9 @@
 {
-  "name": "atcoder-simplify",
-  "description": "atcoder-simplify",
+  "name": "AtCoder Simplify",
+  "description": "AtCoder Simplify",
   "version": "0.1.0",
   "manifest_version": 2,
+  "author": "тars",
   "content_scripts": [
     {
       "matches": ["https://atcoder.jp/contests/*/tasks/*"],
