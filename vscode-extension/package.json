@@ -32,7 +32,7 @@
       },
       {
         "command": "atcoderSimplify.pick",
-        "title": "Open Quick Pick",
+        "title": "Open Menu",
         "category": "AtCoder Simplify"
       }
     ],
