@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
+import { EXT_NAME } from '@vscode/env'
 
-const OC_NAME = 'AtCoder Simplify'
-
-export const outputChannel = vscode.window.createOutputChannel(OC_NAME)
+export const outputChannel = vscode.window.createOutputChannel(EXT_NAME)

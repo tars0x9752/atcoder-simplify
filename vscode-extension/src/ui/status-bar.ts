@@ -1,9 +1,10 @@
 import * as vscode from 'vscode'
 import { ServerState } from '@vscode/server/server'
+import { EXT_NAME } from '@vscode/env'
 
 const statusBarText = {
-  [ServerState.Stopped]: `$(run) AtCoder Simplify`,
-  [ServerState.Running]: `$(zap) AtCoder Simplify`,
+  [ServerState.Stopped]: `$(run) ${EXT_NAME}`,
+  [ServerState.Running]: `$(zap) ${EXT_NAME}`,
 }
 
 const initStatusBar = () => {

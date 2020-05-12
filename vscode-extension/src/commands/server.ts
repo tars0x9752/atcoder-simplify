@@ -2,8 +2,9 @@ import * as vscode from 'vscode'
 import { server } from '@vscode/server/server'
 import { updateStatusBarItem } from '@vscode/ui/status-bar'
 import { cmdId } from '@vscode/commands/id'
+import { EXT_NAME } from '@vscode/env'
 
-const PREFIX = 'AtCoder Simplify: '
+const PREFIX = `${EXT_NAME}: `
 
 const message = {
   start: `${PREFIX}起動しました`,
@@ -12,7 +13,7 @@ const message = {
   alreadyClosed: `${PREFIX}既に停止しています`,
 }
 
-export const startServerCmd = async () => {
+export const startCmd = async () => {
   const result = server.start()
 
   const msg = result ? message.start : message.alreadyStarted
@@ -22,9 +23,11 @@ export const startServerCmd = async () => {
   console.log(cmdId.close)
 
   updateStatusBarItem(server.state, cmdId.pick)
+
+  vscode.window.createTerminal(EXT_NAME)
 }
 
-export const closeServerCmd = async () => {
+export const closeCmd = async () => {
   const result = await server.close()
 
   const msg = result ? message.close : message.alreadyClosed
@@ -32,4 +35,10 @@ export const closeServerCmd = async () => {
   vscode.window.showInformationMessage(msg)
 
   updateStatusBarItem(server.state, cmdId.start)
+
+  const terminal = vscode.window.terminals.find(v => v.name === EXT_NAME)
+
+  if (terminal) {
+    terminal.dispose()
+  }
 }

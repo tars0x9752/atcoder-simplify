@@ -1,21 +1,22 @@
 import * as vscode from 'vscode'
-import { startServerCmd, closeServerCmd } from '@vscode/commands/server'
+import { startCmd, closeCmd } from '@vscode/commands/server'
 import { server, ServerState } from '@vscode/server/server'
 import { posix } from 'path'
 import { testCmd } from '@vscode/commands/test'
+import { EXT_NAME } from '@vscode/env'
 
 const DELIMITER = ': '
 
 const quickPickItemText = {
-  start: `[Start]${DELIMITER}AtCoder Simplify を起動します`,
-  close: `[Close]${DELIMITER}AtCoder Simplify を停止します`,
+  start: `[Start]${DELIMITER}${EXT_NAME} を起動します`,
+  close: `[Close]${DELIMITER}${EXT_NAME} を停止します`,
   test: `[Test]${DELIMITER}サンプルケースをテストします`,
   compile: `[Compile]${DELIMITER}-o オプションのみの簡易コンパイルを行います(gccが必要です)`,
 }
 
 const quickPickItemCmd: Record<string, () => void> = {
-  start: startServerCmd,
-  close: closeServerCmd,
+  start: startCmd,
+  close: closeCmd,
   test: testCmd,
   compile: () => undefined,
 }

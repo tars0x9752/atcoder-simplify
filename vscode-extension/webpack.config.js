@@ -3,6 +3,7 @@
 'use strict'
 
 const path = require('path')
+const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 /**@type {import('webpack').Configuration}*/
@@ -16,6 +17,11 @@ const config = {
     libraryTarget: 'commonjs2',
     devtoolModuleFilenameTemplate: '../[resource-path]',
   },
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      EXT_NAME: 'AtCoder Simplify',
+    }),
+  ],
   devtool: 'source-map',
   externals: [
     {
