@@ -56,7 +56,7 @@ export const testCmd = async () => {
 
   if (!(await fs.checkExistence(executableUri))) {
     vscode.window.showInformationMessage(
-      '実行ファイルがみつかりません。コンパイル時の -o オプションにcppファイルと同じ階層に同じ名称.exeという形で実行ファイルを出力するように指定してコンパイルしてください。task を使ってコンパイルしている場合は -o に対して ${fileDirname}/${fileBasenameNoExtension}.exe を指定してください。'
+      'アクティブなcppファイルが存在しない、または実行ファイルが既定のpathに存在しません。cppファイルと同じ階層に、問題名.exe という名称でコンパイルしてください。task を使ってコンパイルしている場合は -o に対して ${fileDirname}/${fileBasenameNoExtension}.exe を指定してください。'
     )
     return
   }
@@ -107,5 +107,7 @@ export const testCmd = async () => {
   })
 
   outputChannel.appendLine('')
-  outputChannel.show()
+
+  // cppファイルからOCにフォーカスが移ってしまうとUXがあんまりよくないので、フォーカスは奪わないようにする
+  outputChannel.show(true)
 }

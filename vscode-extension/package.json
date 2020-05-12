@@ -35,7 +35,16 @@
         "title": "Open Quick Pick",
         "category": "AtCoder Simplify"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == cpp",
+          "command": "atcoderSimplify.test",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "webpack --mode production",
