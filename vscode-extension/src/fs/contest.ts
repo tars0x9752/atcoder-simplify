@@ -1,3 +1,4 @@
+import * as vscode from 'vscode'
 import { fs, createBuffer } from '@vscode/fs/fs'
 import { posix } from 'path'
 import { SampleCasePayload } from '@shared/types/sample-case-payload'
@@ -6,7 +7,7 @@ import { SampleCasePayload } from '@shared/types/sample-case-payload'
 
 enum CaseFileExt {
   In = '.in',
-  Out = '.out'
+  Out = '.out',
 }
 
 // ユーザーが問題の解答コードを書く用のファイルを生成する
@@ -53,4 +54,38 @@ export const createTaskRelatedFiles = ({
   createSampleCaseFiles(inputSampleCases, CaseFileExt.In, basePath)
   createSampleCaseFiles(outputSampleCases, CaseFileExt.Out, basePath)
   createTaskSolutionFile(contestName, taskName)
+}
+
+export const getDirname = (currentFileUri: vscode.Uri) => {
+  return posix.dirname(currentFileUri.path)
+}
+
+export const parseCurrentFileUri = (currentFileUri: vscode.Uri) => {
+  const cwd = getDirname(currentFileUri)
+  const taskName = posix.basename(currentFileUri.path, '.cpp')
+  const executablePath = posix.join(cwd, `${taskName}.exe`)
+  const executableUri = currentFileUri.with({ path: executablePath })
+
+  return {
+    cwd,
+    taskName,
+    executableUri,
+  }
+}
+
+export const isCpp = (filePath: string) => {
+  return posix.extname(filePath) === '.cpp'
+}
+
+export const findInputCases = async (cwd: string) => {
+  const root = fs.rootPath as string
+
+  // findFiles は RelativePath 前提なので Relative にしている
+  const relativeCwd = posix.relative(root, cwd)
+
+  return vscode.workspace.findFiles(`${relativeCwd}/cases/*.in`)
+}
+
+export const getCasenames = (inputCases: vscode.Uri[]) => {
+  return inputCases.map(inputCase => posix.basename(inputCase.path, '.in'))
 }

@@ -2,8 +2,14 @@ import * as vscode from 'vscode'
 import { posix } from 'path'
 import { exec, ExecOptions } from 'child_process'
 import { promisify } from 'util'
-import { fs, createBuffer } from '@vscode/fs/fs'
 import { outputChannel } from '@vscode/ui/output-channel'
+import { fs, createBuffer } from '@vscode/fs/fs'
+import { parseCurrentFileUri, isCpp, findInputCases, getCasenames } from '@vscode/fs/contest'
+
+interface Result {
+  stdout: string
+  stderr: string
+}
 
 const execP = promisify(exec)
 
@@ -11,13 +17,14 @@ const handleReject = (err: Error) => {
   console.log(err)
 }
 
-const execTests = async (
+// inputCasesを実行して出力をreturn
+const execInputCases = async (
   inputCases: vscode.Uri[],
-  executablePath: string,
+  executableUri: vscode.Uri,
   execOptions: ExecOptions
 ) => {
   const promisedResults = inputCases.map(uri => {
-    return execP(`${executablePath} < ${uri.fsPath}`, execOptions)
+    return execP(`${executableUri.fsPath} < ${uri.fsPath}`, execOptions)
   })
 
   const results = (await Promise.all(promisedResults).catch(handleReject)) || false
@@ -31,28 +38,52 @@ const execTests = async (
   return results
 }
 
-const parseCurrentFilePath = (currentFilePath: string) => {
-  const cwd = posix.dirname(currentFilePath)
-  const taskName = posix.basename(currentFilePath, '.cpp')
-  const executablePath = posix.join(cwd, `${taskName}.exe`)
+// 全実行結果をファイルに保存
+const writeResults = async (results: Result[], casenames: string[], cwd: string) => {
+  const writeResult = async ({ stdout: result }: Result, i: number) => {
+    const resultBuffer = createBuffer(result)
 
-  return {
-    cwd,
-    taskName,
-    executablePath,
+    const casename = posix.basename(casenames[i], '.in')
+
+    const resultPath = posix.join(cwd, 'results', `${casename}.res`)
+
+    const resultUri = vscode.Uri.file(resultPath)
+
+    fs.writeFile(resultUri, resultBuffer, true)
   }
+
+  return await Promise.all(results.map(writeResult))
+}
+
+// 実行結果とoutファイルを比較して正しい答えかテスト
+const testResults = async (results: Result[], casenames: string[], cwd: string) => {
+  const testResult = async ({ stdout: result }: Result, i: number) => {
+    const casename = posix.basename(casenames[i], '.in')
+
+    const outputCasePath = posix.join(cwd, 'cases', `${casename}.out`)
+
+    const outputCaseUri = vscode.Uri.file(outputCasePath)
+
+    const document = await vscode.workspace.openTextDocument(outputCaseUri)
+
+    return result === document.getText()
+  }
+
+  return await Promise.all(results.map(testResult))
 }
 
 export const testCmd = async () => {
-  const currentFileUri = vscode.window.activeTextEditor?.document.uri
+  const currentFileUri = fs.currentFileUri
 
   if (currentFileUri === undefined) {
     return
   }
 
-  const { cwd, executablePath, taskName } = parseCurrentFilePath(currentFileUri.fsPath)
+  if (!isCpp(currentFileUri.path)) {
+    return
+  }
 
-  const executableUri = currentFileUri.with({ path: executablePath })
+  const { cwd, taskName, executableUri } = parseCurrentFileUri(currentFileUri)
 
   if (!(await fs.checkExistence(executableUri))) {
     vscode.window.showInformationMessage(
@@ -63,46 +94,37 @@ export const testCmd = async () => {
 
   const execOptions: ExecOptions = { cwd, timeout: 2000 }
 
-  const root = fs.rootPath as string
+  const inputCases = await findInputCases(cwd)
 
-  // findFiles は RelativePath 前提なので Relative にしている
-  const relativeCwd = posix.relative(root, cwd)
-
-  const inputCases = await vscode.workspace.findFiles(`${relativeCwd}/cases/*.in`)
-
-  const results = (await execTests(inputCases, executablePath, execOptions)) ?? []
-
-  if (results.length === 0) {
+  if (inputCases.length === 0) {
+    vscode.window.showInformationMessage(
+      'サンプルケースが見つかりません。サンプルケースを取得してから再度実行してください。'
+    )
     return
   }
 
-  const testsPromised = results.map(({ stdout: result }, i) => {
-    const resultBuffer = createBuffer(result)
+  const results = (await execInputCases(inputCases, executableUri, execOptions)) ?? []
 
-    const casename = posix.basename(inputCases[i].fsPath, '.in')
+  if (results.length === 0) {
+    vscode.window.showInformationMessage(
+      '予期せぬエラーが発生しました'
+    )
+    return
+  }
 
-    const resultPath = posix.join(cwd, 'results', `${casename}.res`)
+  const casenames = getCasenames(inputCases)
 
-    fs.writeFile(currentFileUri.with({ path: resultPath }), resultBuffer)
+  await writeResults(results, casenames, cwd)
 
-    return vscode.workspace
-      .openTextDocument(currentFileUri.with({ path: posix.join(cwd, 'cases', `${casename}.out`) }))
-      .then(expected => {
-        return result === expected.getText()
-      })
-  })
-
-  const tests = (await Promise.all(testsPromised)) || []
+  const answers = (await testResults(results, casenames, cwd)) || []
 
   outputChannel.appendLine(`=== ${taskName} ===`)
 
-  tests.map((test, i) => {
-    const casename = posix.basename(inputCases[i].fsPath, '.in')
-
-    if (test) {
-      outputChannel.appendLine(`${casename}: AC ✅`)
+  answers.map((answer, i) => {
+    if (answer) {
+      outputChannel.appendLine(`${casenames[i]}: AC ✅`)
     } else {
-      outputChannel.appendLine(`${casename}: WA ❌`)
+      outputChannel.appendLine(`${casenames[i]}: WA ❌`)
     }
   })
 

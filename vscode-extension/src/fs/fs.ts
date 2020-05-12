@@ -9,6 +9,10 @@ export class FsConsumer {
     return workspaceFolders !== undefined ? workspaceFolders[0].uri.fsPath : false
   }
 
+  get currentFileUri() {
+    return vscode.window.activeTextEditor?.document.uri
+  }
+
   // Uri を作る（ただし、scheme は file 固定かつ authority 等は指定なし）
   createFileUriFromRoot(path: string) {
     const { rootPath } = this
@@ -34,11 +38,12 @@ export class FsConsumer {
   }
 
   // ファイルを作る(mkdir -p 的な感じで必要に応じでDirも作られる)
-  // ファイルが既に存在する場合は何もしない
-  async writeFile(uri: vscode.Uri, content: Uint8Array) {
+  async writeFile(uri: vscode.Uri, content: Uint8Array, overwrite = false) {
     const alreadyExists = await this.checkExistence(uri)
 
-    if (alreadyExists) {
+    const overwriteNotAllowed = !overwrite
+
+    if (overwriteNotAllowed && alreadyExists) {
       return
     }
 
