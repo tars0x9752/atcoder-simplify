@@ -21,7 +21,7 @@ export const startServerCmd = async () => {
 
   console.log(cmdId.close)
 
-  updateStatusBarItem(server.state, cmdId.close)
+  updateStatusBarItem(server.state, cmdId.pick)
 }
 
 export const closeServerCmd = async () => {

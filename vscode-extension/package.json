@@ -29,6 +29,11 @@
         "command": "atcoderSimplify.test",
         "title": "Test Sample Cases",
         "category": "AtCoder Simplify"
+      },
+      {
+        "command": "atcoderSimplify.pick",
+        "title": "Open Quick Pick",
+        "category": "AtCoder Simplify"
       }
     ]
   },
