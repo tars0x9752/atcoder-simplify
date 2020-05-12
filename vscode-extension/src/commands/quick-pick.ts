@@ -4,6 +4,7 @@ import { server, ServerState } from '@vscode/server/server'
 import { posix } from 'path'
 import { testCmd } from '@vscode/commands/test'
 import { EXT_NAME } from '@vscode/env'
+import { compileCmd } from '@vscode/commands/compile'
 
 const DELIMITER = ': '
 
@@ -11,14 +12,14 @@ const quickPickItemText = {
   start: `[Start]${DELIMITER}${EXT_NAME} を起動します`,
   close: `[Close]${DELIMITER}${EXT_NAME} を停止します`,
   test: `[Test]${DELIMITER}サンプルケースをテストします`,
-  compile: `[Compile]${DELIMITER}-o オプションのみの簡易コンパイルを行います(gccが必要です)`,
+  compile: `[Compile]${DELIMITER}gccで-oのみの簡易コンパイルを行います (⚠️gccが必要です)`,
 }
 
 const quickPickItemCmd: Record<string, () => void> = {
   start: startCmd,
   close: closeCmd,
   test: testCmd,
-  compile: () => undefined,
+  compile: compileCmd,
 }
 
 const quickPickItemList = {

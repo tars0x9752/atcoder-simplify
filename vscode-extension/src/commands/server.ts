@@ -3,6 +3,7 @@ import { server } from '@vscode/server/server'
 import { updateStatusBarItem } from '@vscode/ui/status-bar'
 import { cmdId } from '@vscode/commands/id'
 import { EXT_NAME } from '@vscode/env'
+import { terminal } from '@vscode/terminal/terminal'
 
 const PREFIX = `${EXT_NAME}: `
 
@@ -20,11 +21,9 @@ export const startCmd = async () => {
 
   vscode.window.showInformationMessage(msg)
 
-  console.log(cmdId.close)
-
   updateStatusBarItem(server.state, cmdId.pick)
 
-  vscode.window.createTerminal(EXT_NAME)
+  terminal.create()
 }
 
 export const closeCmd = async () => {
@@ -36,9 +35,5 @@ export const closeCmd = async () => {
 
   updateStatusBarItem(server.state, cmdId.start)
 
-  const terminal = vscode.window.terminals.find(v => v.name === EXT_NAME)
-
-  if (terminal) {
-    terminal.dispose()
-  }
+  terminal.dispose()
 }

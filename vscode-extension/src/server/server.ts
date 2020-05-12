@@ -25,8 +25,6 @@ class ServerConsumer {
     })
 
     server.post('/', async (req, res) => {
-      console.log('posted')
-
       const sapmleCases = req.body as SampleCasePayload
 
       createTaskRelatedFiles(sapmleCases)

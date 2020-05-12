@@ -30,8 +30,7 @@ const execInputCases = async (
   const results = (await Promise.all(promisedResults).catch(handleReject)) || false
 
   // reject が発生した場合は results は false
-  if (results === false) {
-    vscode.window.showInformationMessage('実行時に問題が発生したため中断されました')
+  if (!results) {
     return
   }
 
@@ -106,9 +105,7 @@ export const testCmd = async () => {
   const results = (await execInputCases(inputCases, executableUri, execOptions)) ?? []
 
   if (results.length === 0) {
-    vscode.window.showInformationMessage(
-      '予期せぬエラーが発生しました'
-    )
+    vscode.window.showInformationMessage('実行時に問題が発生したため中断されました')
     return
   }
 
