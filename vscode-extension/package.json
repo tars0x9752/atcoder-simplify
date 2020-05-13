@@ -3,6 +3,7 @@
   "displayName": "AtCoder Simplify",
   "description": "",
   "version": "0.1.0",
+  "publisher": "tars0x9752",
   "engines": {
     "vscode": "^1.44.0"
   },
@@ -75,5 +76,10 @@
   "dependencies": {
     "fastify": "^2.14.0",
     "fastify-cors": "^3.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tars0x9752/atcoder-simplify.git"
+  },
+  "license": "SEE LICENSE IN LICENSE"
 }
