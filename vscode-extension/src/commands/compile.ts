@@ -21,7 +21,7 @@ const compile = (cwd: string, cppPath: string, outputPath: string) => {
     terminal.create()
   }
 
-  // 絶対pathでやるとterminal上の表記が長くなって嫌なのでcdしてる
+  // 絶対pathだとterminal上の表記が長くなって嫌なのでcdしてる
   terminal.sendText(`cd ${cwd}`)
 
   // 将来的には設定からコマンドを変えられるようにしたい

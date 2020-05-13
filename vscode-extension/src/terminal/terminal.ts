@@ -9,21 +9,28 @@ class TerminalConsumer {
   }
 
   get active() {
-    return this._terminal !== null
+    const { _terminal } = this
+
+    return _terminal?.exitStatus === undefined
   }
 
   create() {
-    const { _terminal } = this
+    const { active } = this
 
-    if (_terminal === null) {
-      this._terminal = vscode.window.createTerminal(EXT_NAME)
+    // activeならなにもしない
+    if (active) {
+      return
     }
+
+    this._terminal = vscode.window.createTerminal(EXT_NAME)
   }
 
   dispose() {
     const { _terminal } = this
 
     _terminal?.dispose()
+
+    this._terminal = null
   }
 
   sendText(text: string, addNewLine?: boolean) {
