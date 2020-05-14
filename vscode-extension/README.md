@@ -12,6 +12,16 @@ AtCoder で問題を解くときの作業を簡略化するための拡張機能
 
 [GitHub](https://github.com/tars0x9752/atcoder-simplify)
 
+## ユーザーガイド
+
+[ユーザーガイド](https://github.com/tars0x9752/atcoder-simplify/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%82%AC%E3%82%A4%E3%83%89)
+
+## ブラウザ拡張機能
+
+アルファ版の現在はブラウザ拡張機能のかわりに、UserScriptでのリリースとなります。
+
+[UserScript](https://greasyfork.org/ja/scripts/403319-atcoder-simplify)
+
 ## Features
 
 - サンプルケースの自動取得
