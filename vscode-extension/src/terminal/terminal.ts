@@ -11,7 +11,11 @@ class TerminalConsumer {
   get active() {
     const { _terminal } = this
 
-    return _terminal?.exitStatus === undefined
+    if (_terminal === null) {
+      return false
+    }
+
+    return _terminal.exitStatus === undefined
   }
 
   create() {
