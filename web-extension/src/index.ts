@@ -1,3 +1,13 @@
+// ==UserScript==
+// @name         AtCoder Simplify
+// @namespace    https://github.com/tars0x9752/atcoder-simplify
+// @version      0.1.0
+// @description  AtCoder Simplify
+// @author       тars
+// @match        https://atcoder.jp/contests/*/tasks/*
+// @grant        none
+// ==/UserScript==
+
 import { SampleCasePayload } from '@shared/types/sample-case-payload'
 
 const isInputSampleCaseEl = <T extends HTMLElement>(el: T) => {
@@ -51,6 +61,8 @@ const sendSampleCases = (payload: SampleCasePayload) => {
     method: 'POST',
     headers,
     body,
+  }).catch(_ => {
+    console.log('AtCoder Simplify: VSCode との連携に失敗しました')
   })
 }
 

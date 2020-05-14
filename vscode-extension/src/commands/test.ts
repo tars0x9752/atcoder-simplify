@@ -44,7 +44,7 @@ const writeResults = async (results: Result[], casenames: string[], cwd: string)
 
     const casename = posix.basename(casenames[i], '.in')
 
-    const resultPath = posix.join(cwd, 'results', `${casename}.res`)
+    const resultPath = posix.join(cwd, 'results', `${casename}.result`)
 
     const resultUri = vscode.Uri.file(resultPath)
 
