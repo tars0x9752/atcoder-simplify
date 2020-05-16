@@ -83,7 +83,18 @@ export const findInputCases = async (cwd: string) => {
   // findFiles は RelativePath 前提なので Relative にしている
   const relativeCwd = posix.relative(root, cwd)
 
-  return vscode.workspace.findFiles(`${relativeCwd}/cases/*.in`)
+  const files = await vscode.workspace.findFiles(`${relativeCwd}/cases/*.in`)
+
+  // 環境によってソートされてないかもしれないので明示的に辞書順でソート
+  return files.sort((a, b) => {
+    if (a.path > b.path) {
+      return 1
+    } else if (a.path === b.path) {
+      return 0
+    } else {
+      return -1
+    }
+  })
 }
 
 export const getCasenames = (inputCases: vscode.Uri[]) => {
