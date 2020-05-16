@@ -2,7 +2,7 @@
   "name": "atcoder-simplify",
   "displayName": "AtCoder Simplify",
   "description": "",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "tars0x9752",
   "engines": {
     "vscode": "^1.44.0"
@@ -29,6 +29,11 @@
       {
         "command": "atcoderSimplify.test",
         "title": "Test",
+        "category": "AtCoder Simplify"
+      },
+      {
+        "command": "atcoderSimplify.compile",
+        "title": "Compile",
         "category": "AtCoder Simplify"
       },
       {
