@@ -32,6 +32,11 @@
         "category": "AtCoder Simplify"
       },
       {
+        "command": "atcoderSimplify.compile",
+        "title": "Compile",
+        "category": "AtCoder Simplify"
+      },
+      {
         "command": "atcoderSimplify.pick",
         "title": "Open Menu",
         "category": "AtCoder Simplify"

@@ -4,5 +4,6 @@ export const cmdId = {
   start: `${EXTENSION_ID}.start`,
   close: `${EXTENSION_ID}.close`,
   pick: `${EXTENSION_ID}.pick`,
-  test: `${EXTENSION_ID}.test`
+  test: `${EXTENSION_ID}.test`,
+  compile: `${EXTENSION_ID}.compile`,
 }

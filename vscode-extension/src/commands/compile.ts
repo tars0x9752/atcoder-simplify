@@ -2,6 +2,7 @@ import * as vscode from 'vscode'
 import { terminal } from '@vscode/terminal/terminal'
 import { fs } from '@vscode/fs/fs'
 import { posix } from 'path'
+import { isCpp } from '@vscode/fs/contest'
 
 const parseCurrentFilePath = (currentFilePath: string) => {
   const cwd = posix.dirname(currentFilePath)
@@ -15,7 +16,6 @@ const parseCurrentFilePath = (currentFilePath: string) => {
   }
 }
 
-// ほんとはコレじゃなくてユーザー自信でコンパイルして欲しい
 const compile = (cwd: string, cppPath: string, outputPath: string) => {
   if (!terminal.active) {
     terminal.create()
@@ -37,7 +37,11 @@ export const compileCmd = () => {
     return
   }
 
-  const { cwd, taskName } = parseCurrentFilePath(currentFileUri.fsPath)
+  if (!isCpp(currentFileUri.path)) {
+    return
+  }
+
+  const { cwd, taskName } = parseCurrentFilePath(currentFileUri.path)
 
   compile(cwd, `${taskName}.cpp`, `${taskName}.exe`)
 }
