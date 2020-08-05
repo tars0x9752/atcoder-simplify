@@ -79,7 +79,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "fastify": "^2.14.0",
+    "fastify": "^2.15.1",
     "fastify-cors": "^3.0.3"
   },
   "repository": {
